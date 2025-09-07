@@ -53,14 +53,14 @@ export const UploadNoteForm: React.FC<UploadNoteFormProps> = ({ onUploadSuccess,
       // 1. Upload file to Supabase Storage
       const filePath = `${user.id}/${Date.now()}-${file.name}`;
       const { error: uploadError } = await supabase.storage
-        .from('notes-files')
+        .from('notes')
         .upload(filePath, file);
 
       if (uploadError) throw uploadError;
 
       // 2. Get public URL of the uploaded file
       const { data: { publicUrl } } = supabase.storage
-        .from('notes-files')
+        .from('notes')
         .getPublicUrl(filePath);
 
       if (!publicUrl) throw new Error('Could not get public URL for the file.');
